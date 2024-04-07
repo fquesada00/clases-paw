@@ -4,7 +4,7 @@ import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -55,7 +55,14 @@ public class HelloWorldController {
   @RequestMapping("/")
   public ModelAndView helloWorld() {
     final ModelAndView mav = new ModelAndView("index");
-    mav.addObject("greeting", "PAW");
+    final String name;
+    if (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof org.springframework.security.core.userdetails.User springUser) {
+      final String email = springUser.getUsername();
+      name = userService.findByEmail(email).map(User::getFirstName).orElse("Weird PAW");
+    } else {
+      name = "PAW";
+    }
+    mav.addObject("greeting", name);
     return mav;
   }
 }
