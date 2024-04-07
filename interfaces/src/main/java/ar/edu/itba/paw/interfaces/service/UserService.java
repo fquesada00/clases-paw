@@ -2,6 +2,8 @@ package ar.edu.itba.paw.interfaces.service;
 
 import ar.edu.itba.paw.models.User;
 
+import java.util.Optional;
+
 public interface UserService {
     User findById(int id);
     User create(String email, String firstName, String lastName, int age);
