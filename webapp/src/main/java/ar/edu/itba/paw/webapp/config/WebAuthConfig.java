@@ -16,7 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.Duration;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity
 @ComponentScan("ar.edu.itba.paw.webapp.auth")
 public class WebAuthConfig extends WebSecurityConfigurerAdapter {
 
@@ -33,7 +33,7 @@ public class WebAuthConfig extends WebSecurityConfigurerAdapter {
         .invalidSessionUrl("/login")
         .and()
         .authorizeRequests()
-        .antMatchers("/login")
+        .antMatchers("/login", "/")
         .anonymous()
         .antMatchers("/admin/**")
         .hasRole("ADMIN")
