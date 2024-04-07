@@ -2,17 +2,22 @@ package ar.edu.itba.paw.webapp.controller;
 
 import ar.edu.itba.paw.interfaces.service.UserService;
 import ar.edu.itba.paw.models.User;
+import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 public class HelloWorldController {
 
   @Autowired private UserService userService;
+
+  @Autowired private MessageSource messageSource;
 
   @RequestMapping("/users/{userId}")
   public ModelAndView helloWorld(@PathVariable("userId") final int userId) {
@@ -22,13 +27,20 @@ public class HelloWorldController {
     return mav;
   }
 
-  @RequestMapping("/users/create")
-  public ModelAndView create(
-      @RequestParam(value = "email") final String email,
-      @RequestParam(value = "first_name") final String firstName,
-      @RequestParam(value = "last_name") final String lastName,
-      @RequestParam(value = "age") final int age) {
-    final User u = userService.create(email, firstName, lastName, age);
+  @RequestMapping(value = "/register")
+  public ModelAndView register(@ModelAttribute("registerForm") final UserForm form) {
+
+    return new ModelAndView("register");
+  }
+
+  @RequestMapping(value = "/users/create", method = RequestMethod.POST)
+  public ModelAndView create(@Valid @ModelAttribute("registerForm") final UserForm form, final BindingResult errors) {
+
+    if (errors.hasErrors()) {
+      return register(form);
+    }
+
+    final User u = userService.create(form.getEmail(), form.getFirstName(), form.getLastName(), form.getAge());
     return new ModelAndView("redirect:/users/" + u.getId());
   }
 

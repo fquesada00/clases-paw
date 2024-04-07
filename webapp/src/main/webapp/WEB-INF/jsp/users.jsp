@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,19 +23,19 @@
     <div><c:out value="${user.id}"/></div>
 </section>
 <section>
-    <label>First Name</label>
+    <label><spring:message code="userDetail.firstName" /></label>
     <div><c:out value="${user.firstName}"/></div>
 </section>
 <section>
-    <label>Last Name</label>
+    <label><spring:message code="userDetail.lastName" /></label>
     <div><c:out value="${user.lastName}"/></div>
 </section>
 <section>
-    <label>Email</label>
+    <label><spring:message code="userDetail.email" /></label>
     <div><c:out value="${user.email}"/></div>
 </section>
 <section>
-    <label>Age</label>
+    <label><spring:message code="userDetail.age" /></label>
     <div><c:out value="${user.age}"/></div>
 </section>
 </body>
