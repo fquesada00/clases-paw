@@ -5,6 +5,7 @@ import ar.edu.itba.paw.models.User;
 import ar.edu.itba.paw.webapp.form.UserForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,7 @@ public class HelloWorldController {
 
   @Autowired private UserService userService;
 
-  @Autowired private MessageSource messageSource;
+  @Autowired private PasswordEncoder passwordEncoder;
 
   @RequestMapping("/users/{userId}")
   public ModelAndView helloWorld(@PathVariable("userId") final int userId) {
@@ -34,13 +35,20 @@ public class HelloWorldController {
   }
 
   @RequestMapping(value = "/users/create", method = RequestMethod.POST)
-  public ModelAndView create(@Valid @ModelAttribute("registerForm") final UserForm form, final BindingResult errors) {
+  public ModelAndView create(
+      @Valid @ModelAttribute("registerForm") final UserForm form, final BindingResult errors) {
 
     if (errors.hasErrors()) {
       return register(form);
     }
 
-    final User u = userService.create(form.getEmail(), form.getFirstName(), form.getLastName(), form.getAge());
+    final User u =
+        userService.create(
+            form.getEmail(),
+            form.getFirstName(),
+            form.getLastName(),
+            form.getAge(),
+            passwordEncoder.encode(form.getPassword()));
     return new ModelAndView("redirect:/users/" + u.getId());
   }
 

@@ -1,1 +1,2 @@
-CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, email varchar(100), firstName varchar(100), lastName  varchar(100), age int)
+CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, email varchar(100), firstName varchar(100), lastName  varchar(100), age int);
+ALTER TABLE IF EXISTS users ADD COLUMN IF NOT EXISTS password varchar(100);

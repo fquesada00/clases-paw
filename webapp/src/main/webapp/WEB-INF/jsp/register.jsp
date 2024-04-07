@@ -21,6 +21,16 @@
 <c:url value="/users/create" var="postPath"/>
 <form:form modelAttribute="registerForm" action="${postPath}" method="post">
     <section>
+        <form:label path="email"><spring:message code="registerForm.email" /></form:label>
+        <form:input type="email" path="email"/>
+        <form:errors path="email" cssClass="formError" element="p"/>
+    </section>
+    <section>
+        <form:label path="password"><spring:message code="registerForm.password" /></form:label>
+        <form:input type="password" path="password"/>
+        <form:errors path="password" cssClass="formError" element="p"/>
+    </section>
+    <section>
         <form:label path="firstName"><spring:message code="registerForm.firstName" /></form:label>
         <form:input type="text" path="firstName"/>
         <form:errors path="firstName" cssClass="formError" element="p"/>
@@ -29,11 +39,6 @@
         <form:label path="lastName"><spring:message code="registerForm.lastName" /></form:label>
         <form:input type="text" path="lastName"/>
         <form:errors path="lastName" cssClass="formError" element="p"/>
-    </section>
-    <section>
-        <form:label path="email"><spring:message code="registerForm.email" /></form:label>
-        <form:input type="email" path="email"/>
-        <form:errors path="email" cssClass="formError" element="p"/>
     </section>
     <section>
         <form:label path="age"><spring:message code="registerForm.age" /></form:label>

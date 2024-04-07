@@ -14,13 +14,19 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
 
+
     @Override
     public User findById(int id) {
         return userDao.findById(id);
     }
 
     @Override
-    public User create(String email, String firstName, String lastName, int age) {
-        return userDao.create(email, firstName, lastName, age);
+    public Optional<User> findByEmail(String email) {
+        return Optional.ofNullable(userDao.findByEmail(email));
+    }
+
+    @Override
+    public User create(String email, String firstName, String lastName, int age, String password) {
+        return userDao.create(email, firstName, lastName, age, password);
     }
 }

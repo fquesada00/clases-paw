@@ -26,7 +26,8 @@ public class UserJdbcDao implements UserDao {
               rs.getString("email"),
               rs.getString("firstName"),
               rs.getString("lastName"),
-              rs.getInt("age"));
+              rs.getInt("age"),
+              rs.getString("password"));
 
   @Autowired
   public UserJdbcDao(final DataSource ds) {
@@ -46,13 +47,24 @@ public class UserJdbcDao implements UserDao {
   }
 
   @Override
-  public User create(String email, String firstName, String lastName, int age) {
+  public User findByEmail(String email) {
+    final List<User> list =
+            jdbcTemplate.query("SELECT * FROM users	WHERE email = ?", ROW_MAPPER, email);
+    if (list.isEmpty()) {
+      return null;
+    }
+    return list.get(0);
+  }
+
+  @Override
+  public User create(String email, String firstName, String lastName, int age, String password) {
     final Map<String, Object> args = new HashMap<>();
     args.put("email", email);
     args.put("firstName", firstName);
     args.put("lastName", lastName);
     args.put("age", age);
+    args.put("password", password);
     final Number userId = jdbcInsert.executeAndReturnKey(args);
-    return new User(userId.longValue(), email, firstName, lastName, age);
+    return new User(userId.longValue(), email, firstName, lastName, age, password);
   }
 }

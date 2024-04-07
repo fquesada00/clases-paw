@@ -25,6 +25,7 @@ public class UserJdbcDaoTest {
     private static final String FIRST_NAME = "John";
     private static final String LAST_NAME = "Doe";
     private static final int AGE = 50;
+    private static final String PASSWORD = "password";
 
     @Autowired
     private DataSource ds;
@@ -42,7 +43,7 @@ public class UserJdbcDaoTest {
 
     @Test
     public void testCreate() {
-        final User user = userDao.create(EMAIL, FIRST_NAME, LAST_NAME, AGE);
+        final User user = userDao.create(EMAIL, FIRST_NAME, LAST_NAME, AGE, PASSWORD);
 
 
         Assert.assertNotNull(user);
@@ -51,5 +52,6 @@ public class UserJdbcDaoTest {
         Assert.assertEquals(FIRST_NAME, user.getFirstName());
         Assert.assertEquals(LAST_NAME, user.getLastName());
         Assert.assertEquals(AGE, user.getAge());
+        Assert.assertEquals(PASSWORD, user.getPassword());
     }
 }

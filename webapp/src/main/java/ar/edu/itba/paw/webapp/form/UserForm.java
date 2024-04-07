@@ -3,6 +3,7 @@ package ar.edu.itba.paw.webapp.form;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 public class UserForm {
     @Email
@@ -16,6 +17,9 @@ public class UserForm {
 
     @Positive
     private int age;
+
+    @Size(min = 8)
+    private String password;
 
     public String getEmail() {
         return email;
@@ -47,5 +51,13 @@ public class UserForm {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
